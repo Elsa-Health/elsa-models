@@ -7,9 +7,6 @@ using Turing
 using MLDataUtils
 
 println("Package importing has finished")
-# mutable struct Adherence {
-#     score::Float64
-# }
 
 
 function getHome(req::HTTP.Request)
@@ -97,11 +94,7 @@ function getAdherenceScore(req::HTTP.Request)
     variables = JSON2.read(IOBuffer(HTTP.payload(req)))
 
     @show variables
-
-    # function getpayload(name::Symbol, fallback::Float64) 
-    #     return variables[name] string(fallback)
-    # end
-
+    
 	occupation = float(get(variables, :occupation, 0.0))
 	age = float(get(variables, :age, 0.0))
 	share_drugs = float(get(variables, :share_drugs, 0.0))
@@ -116,7 +109,6 @@ function getAdherenceScore(req::HTTP.Request)
 	rescaled_age = [age]
     @show rescale!(rescaled_age, μ, σ)
     
-	# adherenceScore([occupation rescaled_age[1] share_drugs understand_reg side_effect edu_lev alc_drinks sex], loaded_chn, 0.65, 6000) |> json
 	predictions, p_hats_sampled, v_sampled, mapping = adherenceScore([occupation rescaled_age[1] share_drugs understand_reg side_effect edu_lev alc_drinks sex], loaded_chn, 0.65, 6000)
     return HTTP.Response(200, JSON2.write(
        Dict("predictions" => predictions, 
