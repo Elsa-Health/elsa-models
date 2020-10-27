@@ -116,7 +116,8 @@ positive_housemates = bernoulli(0.1)
 function is_motivated_(rng)
     neg_child = Bool(recently_delivered_negative_child(rng))
     if neg_child
-        return rand(bernoulli(0.3)) # @Upendo: I think you know this number 
+        return rand(bernoulli(0.48)) # @Upendo: I think you know this number 
+        #The study shows 11 out of 23 women faced this
     end
 
     if has_dependents(rng) == :yes
@@ -205,7 +206,7 @@ function education_level_(rng)
         # ASSUMPTION: under 12 its assumed girls and boys have equal chance of being in primary school
         rand(uniform([:primary, :none]))
     elseif age(rng) < 19
-        rand(uniform([:primary, :seconday, :none]))
+        rand(uniform([:primary, :secondary, :none]))
     else
         # TODO: Account for sex given 1/4 of girls graduate secondary school in tanzania source: WHO
         return rand(uniform([:secondary, :teriary, :none]))
@@ -279,7 +280,7 @@ has_reminders = ciid(has_reminders_)
 
 # Alcohol intake	Yes/ No	Drinks alcohol
 # PARENTS: income, age, sex
-# returns: [:none, :rarely, :often, :extreme] here extreme referes to either bein an acloholic or consuming moonshine
+# returns: [:none, :rarely, :often, :extreme] here extreme refers to either being an acloholic or consuming moonshine
 function alcohol_use_(rng)
     useage = categorical([0.25, 0.25, 0.25, 0.25])
     if age(rng) < 15
@@ -329,7 +330,18 @@ frequent_travel = bernoulli(0.25)
 
 # Run out of pills	Yes/ No	Not enough pills to finish dosage either due to exceeding dosage time (days) or having shared them
 # function
-
+function out_of_pills_(rng)
+    frequent_travel = Bool(frequent_travel(rng))
+    shares_drugs = Bool(shares_drugs(rng))
+    if frequent_travel && shares_drugs
+        return rand(bernoulli(0.7))
+    elseif frequent_travel || shares_drugs
+        return rand(bernoulli(0.5))
+    else
+        return rand(bernoulli(0.2))
+    end
+end
+out_of_pills = ciid(out_of_pills_)
 
 # Transport cost / distance to treatment sites	High/ Low	Not affording related costs to reach CTC
 # 
@@ -343,11 +355,13 @@ function missed_appointment_(rng)
     reminders = Bool(has_reminders(rng))
     ctc_satisfaction = Bool(ctc_service_satisfaction(rng))
     travels_often = Bool(frequent_travel(rng))
-    if ctc_satisfaction && reminders && income(rng) != :low
+    understand_regimen = Bool(understand_regimen(rng))
+
+    if ctc_satisfaction && reminders && income(rng) != :low && !travels_often && understand_regimen
         return rand(bernoulli(0.05))
-    elseif !ctc_satisfaction && !reminders && travels_often
-        return rand(bernoulli(0.65))
-    elseif ctc_satisfaction || reminders || !travels_often
+    elseif !understand_regimen && !ctc_satisfaction && !reminders || income(rng) == :low || travels_often 
+        return rand(bernoulli(0.75))
+    elseif understand_regimen && ctc_satisfaction && reminders || !travels_often || income(rng) == :low 
         return rand(bernoulli(0.3))
     else
         return rand(bernoulli(0.15))
