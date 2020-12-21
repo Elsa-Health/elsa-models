@@ -5,10 +5,7 @@ on:
       - main
       - dev
   push:
-    branches:
-      - main
-      - dev
-      - disease-modeling
+    - '*'
     tags: '*'
 jobs:
   test:
