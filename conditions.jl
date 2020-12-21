@@ -5,6 +5,7 @@ age_categories = [:neonatal, :infant, :toddler, :preschool, :school, :adolescent
 function age_(rng)
     return age_categories[rand(categorical([0.25, 0.25, 0.2, 0.1, 0.1, 0.1]))]
 end
+age = ciid(age_)
 
 # male = 1 & female = 0 | with equal likelihood
 sex = bernoulli(0.5)
@@ -93,7 +94,7 @@ stomatitis = bernoulli(0.075)
 push!(conditions, "stomatitis" => stomatitis)
 
 # anaemia = bernoulli(0.075) # both symptom and disease
-push!(conditions, "anaemia" => anaemia)
+# push!(conditions, "anaemia" => anaemia)
 
 scabies = bernoulli(0.075)
 push!(conditions, "scabies" => scabies)
@@ -147,7 +148,7 @@ push!(conditions, "tinea_nigra" => tinea_nigra)
 symptoms = Dict{String,Omega.URandVar}()
 
 function abdominal_pain_(rng)
-    if (Bool(tonsillitis) && rand(age) !== :adolescent)
+    if (Bool(rand(tonsillitis)) && rand(age) !== :adolescent)
         return rand(bernoulli(0.95))
     end
     return rand(bernoulli(0.1))
@@ -203,7 +204,7 @@ function chest_pain_(rng)
     elseif (Bool(bronchitis(rng)))
         return rand(bernoulli(0.60))
     end
-    return rand(bernoulli(0.1))
+    return rand(bernoulli(0.01))
 end
 chest_pain = ciid(chest_pain_)
 push!(symptoms, "chest_pain" => chest_pain)
@@ -260,7 +261,7 @@ function crackles_(rng)
     if (Bool(pneumonia(rng)))
         return rand(bernoulli(0.90))
     end
-    return rand(bernoulli(0.1))
+    return rand(bernoulli(0.01))
 end
 crackles = ciid(crackles_)
 push!(symptoms, "crackles" => crackles)
@@ -587,7 +588,7 @@ function nasal_flaring_(rng)
     if (Bool(pneumonia(rng)))
         return rand(bernoulli(0.25))
     end
-    return rand(bernoulli(0.1))
+    return rand(bernoulli(0.05))
 end
 nasal_flaring = ciid(nasal_flaring_)
 push!(symptoms, "nasal_flaring" => nasal_flaring)
@@ -727,7 +728,7 @@ function tachypnea_(rng)
     elseif (Bool(asthma(rng)))
         return rand(bernoulli(0.4))
     end
-    return rand(bernoulli(0.1))
+    return rand(bernoulli(0.01))
 end
 tachypnea = ciid(tachypnea_)
 push!(symptoms, "tachypnea" => tachypnea)
@@ -819,18 +820,18 @@ function evaluate_condition1(condition, present_symptoms, sample_counts=10)
     symptoms_condition_true = map(symptom -> replace(symptoms["$symptom"], conditions["$condition"] => true), present_symptoms)
     symptoms_condition_false = map(symptom -> replace(symptoms["$symptom"], conditions["$condition"] => false), present_symptoms)
 
-    @show present_symptoms
+    # @show present_symptoms
 
     results_condition_true = rand(tuple(symptoms_condition_true...), sample_counts, alg=RejectionSample)
     results_condition_false = rand(tuple(symptoms_condition_false...), sample_counts, alg=RejectionSample)
 
-    @show map(ix -> results_condition_true[ix] .- results_condition_false[ix], 1:sample_counts)
+    # @show map(ix -> results_condition_true[ix] .- results_condition_false[ix], 1:sample_counts)
 
-    @show results_condition_true, results_condition_false
+    # @show results_condition_true, results_condition_false
 end
 
 
-function evaluate_condition(condition, present_symptoms, sample_counts=1000)
+function evaluate_condition(condition, present_symptoms, sample_counts=500)
     symptoms_do_condition = map(symptom -> (replace(symptoms["$symptom"], conditions["$condition"] => true), 
         replace(symptoms["$symptom"], conditions["$condition"] => false)), present_symptoms)
 
@@ -842,6 +843,7 @@ end
 
 function assess_symptoms(present_symptoms=[], absent_symptoms=[], condition_options=collect(keys(conditions)))
     symptom_mean_effects = map(condition -> evaluate_condition(condition, present_symptoms), condition_options)
+    # @show sum(sum(symptom_mean_effects))
     condition_probabilities = reverse(sort(
         collect(
             Dict{String,Float32}(condition => mean(symptom_mean_effects[idx]) for (idx, condition) in enumerate(condition_options))
@@ -850,6 +852,5 @@ function assess_symptoms(present_symptoms=[], absent_symptoms=[], condition_opti
         ))
 end
 
-
 # USAGE
-assess_symptoms(["cough", "fever", "productive_cough", "dyspnoea", "nasal_flaring"], [])
+# assess_symptoms(["fever", "dyspnoea", "nasal_flaring"], [])
