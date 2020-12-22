@@ -1,5 +1,23 @@
 using Omega
 
+# risk₁ => diagnosis
+# risk₂ => diagnosis
+# risk₃ => diagnosis
+
+
+# diagnosis => symptom₁
+# diagnosis => symptom₂
+# diagnosis => symptom₃
+
+
+# # Symptoms
+# has_fever = bernoulli(0.2)
+# has_cough = bernoulli(0.2)
+# has_dyspnoea = bernoulli(0.2)
+# has_chest_pain = bernoulli(0.2)
+# has_jaundice = bernoulli(0.2)
+# has_
+
 timeofday = uniform([:morning, :afternoon, :evening])
 is_window_open = bernoulli(0.5)
 is_ac_on = bernoulli(0.3)
@@ -14,6 +32,8 @@ function outside_temp_(rng)
     end
 end
 outside_temp = ciid(outside_temp_)
+
+
 
 function inside_temp_(rng)
     if Bool(is_ac_on(rng))
@@ -34,4 +54,6 @@ function thermostat_(rng)
 end
   
 thermostat = ciid(thermostat_)
+
+
 rand((timeofday, is_window_open, is_ac_on, outside_temp, inside_temp, thermostat), is_ac_on == 1, 5, alg = SSMH)

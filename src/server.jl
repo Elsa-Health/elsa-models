@@ -136,4 +136,4 @@ HTTP.@register(ELSA_ROUTER, "POST", "/adherence-score", getAdherenceScore)
 # end
 
 # HTTP.serve(ELSA_ROUTER, ip"127.0.0.1", 8080)
-HTTP.serve(ELSA_ROUTER, "0.0.0.0", parse(Int,ARGS[1]))
+HTTP.serve(ELSA_ROUTER, "0.0.0.0", length(ARGS) > 0 ? parse(Int, ARGS[1]) : 8080)
