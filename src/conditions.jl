@@ -1,4 +1,3 @@
-module PediatricAssessment
 using Omega
 
 # categories [<4weeks, 1mo - 1yr, 1yr - 3yrs, 3yrs - 6yrs, 6yrs - 12yrs, 12yrs - 18yrs]
@@ -855,4 +854,3 @@ end
 
 # USAGE
 # assess_symptoms(["fever", "dyspnoea", "nasal_flaring"], [])
-end
