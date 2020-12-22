@@ -9,12 +9,12 @@ A collection of (mainly causal) models for different health conditions written i
 
 Please install all the requeirments listed in the requirements section then:
 
-To run the server
+##### To run the server
 1. Change directories into this project: `cd path/to/folder`
-2. `julia --project=@. server.jl` to activate the current project and start the server
+2. `julia --project=@. ./src/server.jl` to activate the current project and start the server
 3. To stop the server simply press `Ctrl+C`
 
-To install new packages:
+##### To install new packages:
 1. Change directories into this project: `cd path/to/folder`
 2. `julia --project=@.` to activate the current project and enter the REPL
 3. `] add PACKAGENAME` to add the package "PACKAGENAME" (replace PACKAGENAME with the package)
@@ -37,10 +37,47 @@ The file adherence.jl is a causal model that supports counterfactuals. Its still
 ---
 
 #### Contribution
-Please do not push any changes directly to the master branch. Create a new branch with the following naming conventions
+We love your input! We want to make contributing to this project as easy and transparent as possible, whether it's:
 
-When creating a new feature: `feature/feature-name`
-When fixing a bug: `bug/bug-name`
-When making an improvement: `improvement/improvement-name`
+- Reporting a bug
+- Discussing the current state of the code
+- Submitting a fix
+- Proposing new features
+- Becoming a maintainer
+
+#### We Develop with Github
+We use github to host code, to track issues and feature requests, have discussions, as well as accept pull requests.
+
 
 Then push your code to Github and make a pull request for a merge.
+
+#### We Use [Github Flow](https://guides.github.com/introduction/flow/index.html), So All Code Changes Happen Through Pull Requests
+Pull requests are the best way to propose changes to the codebase (we use [Github Flow](https://guides.github.com/introduction/flow/index.html)). We actively welcome your pull requests:
+
+1. Fork the repo and create your branch from `main`.
+2. If you've added code that should be tested, add tests.
+3. If you've changed APIs, update the documentation.
+4. Ensure the test suite passes.
+5. Make sure your code lints.
+6. Issue that pull request!
+
+#### Report bugs using Github's [issues](https://github.com/Elsa-Health/elsa-models/issues)
+We use GitHub issues to track public bugs. Report a bug by [opening a new issue](); it's that easy!
+
+**Great Bug Reports** tend to have:
+- A quick summary and/or background
+- Steps to reproduce
+  - Be specific!
+  - Give sample code if you can. (TODO: Add Example)
+- What you expected would happen
+- What actually happens
+- Notes (possibly including why you think this might be happening, or stuff you tried that didn't work)
+
+People *love* thorough bug reports. I'm not even kidding.
+
+
+
+### References
+
+[Improving the accuracy of medical diagnosis with causal machine learning](https://www.nature.com/articles/s41467-020-17419-7)
+This document was adapted from [Brandk's](https://gist.github.com/briandk/3d2e8b3ec8daf5a27a62) awesome adaptation of the open-source contribution guidelines for [Facebook's Draft](https://github.com/facebook/draft-js/blob/a9316a723f9e918afde44dea68b5f9f39b7d9b00/CONTRIBUTING.md)
