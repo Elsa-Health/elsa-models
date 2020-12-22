@@ -1,6 +1,14 @@
 name: CI
 
-on: [push, pull_request]
+on:
+  pull_request:
+    branches:
+      - main
+      - dev
+  push:
+    branches:
+      - main
+      - dev
 
 jobs:
   test:
@@ -8,8 +16,7 @@ jobs:
     strategy:
       matrix:
         julia-version: ["1.4.2"]
-        julia-arch: [x64]
-        # julia-arch: [x64, x86]
+        julia-arch: [x64, x86]
         os: [ubuntu-latest]
         # exclude:
         #   - os: macOS-latest

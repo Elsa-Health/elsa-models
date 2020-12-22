@@ -245,8 +245,10 @@ function cough_(rng)
         return rand(bernoulli(0.9))
     elseif (Bool(pneumonia(rng)))
         return rand(bernoulli(0.9))
+    elseif (Bool(tuberculosis(rng)))
+        return rand(bernoulli(0.95))
     end
-    return rand(bernoulli(0.1))
+    return rand(bernoulli(0.07))
 end
 cough = ciid(cough_)
 push!(symptoms, "cough" => cough)
