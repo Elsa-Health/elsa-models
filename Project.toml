@@ -1,3 +1,6 @@
+name = "ElsaModels"
+uuid = "e4fc9beb-7cce-4546-aac3-9f1fe08b5b68"
+
 [deps]
 Bijectors = "76274a88-744f-5084-9051-94815aaf08c4"
 Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"
@@ -7,6 +10,7 @@ JSON2 = "2535ab7d-5cd8-5a07-80ac-9b1792aadce3"
 MLDataUtils = "cc2ba9b6-d476-5e6d-8eaf-a92d5412d41d"
 Omega = "1af16e33-887a-59b3-8344-18f1671b3ade"
 StatsFuns = "4c63d2b9-4356-54db-8cca-17b64c39e42c"
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 Turing = "fce5fe82-541a-59a6-adf8-730c64b5f9a0"
 UnicodePlots = "b8865327-cd53-5732-bb35-84acbb429228"
 Zygote = "e88e6eb3-aa80-5325-afca-941959d7151f"
