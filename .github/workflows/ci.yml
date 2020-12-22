@@ -8,7 +8,8 @@ jobs:
     strategy:
       matrix:
         julia-version: ["1.4.2"]
-        julia-arch: [x64, x86]
+        julia-arch: [x64]
+        # julia-arch: [x64, x86]
         os: [ubuntu-latest]
         # exclude:
         #   - os: macOS-latest
