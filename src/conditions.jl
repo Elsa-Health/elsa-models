@@ -42,7 +42,7 @@ push!(conditions, "tonsillitis" => tonsillitis)
 laryngitis = bernoulli(0.075)
 push!(conditions, "laryngitis" => laryngitis)
 
-sinusitis = bernoulli(0.075)
+sinusitis = bernoulli(0.175)
 push!(conditions, "sinusitis" => sinusitis)
 
 tuberculosis = bernoulli(0.075)
@@ -166,7 +166,7 @@ function barrel_chest_(rng)
     if (Bool(asthma(rng)))
         return rand(bernoulli(0.25))
     end
-    return rand(bernoulli(0.1))
+    return rand(bernoulli(0.05))
 end
 barrel_chest = ciid(barrel_chest_)
 push!(symptoms, "barrel_chest" => barrel_chest)
@@ -213,7 +213,7 @@ function chest_tightness_(rng)
     if (Bool(asthma(rng)))
         return rand(bernoulli(0.92))
     end
-    return rand(bernoulli(0.1))
+    return rand(bernoulli(0.03))
 end
 chest_tightness = ciid(chest_tightness_)
 push!(symptoms, "chest_tightness" => chest_tightness)
@@ -348,7 +348,7 @@ function dyspnoea_(rng)
     elseif (Bool(asthma(rng)))
         return rand(bernoulli(0.90))
     end
-    return rand(bernoulli(0.1))
+    return rand(bernoulli(0.05))
 end
 dyspnoea = ciid(dyspnoea_)
 push!(symptoms, "dyspnoea" => dyspnoea)
@@ -363,7 +363,7 @@ function facial_pain_(rng)
     if (Bool(sinusitis(rng)))
         return rand(bernoulli(0.85))
     end
-    return rand(bernoulli(0.1))
+    return rand(bernoulli(0.05))
 end
 facial_pain = ciid(facial_pain_)
 push!(symptoms, "facial_pain" => facial_pain)
@@ -510,7 +510,7 @@ function loss_of_smell_(rng)
     elseif (Bool(sinusitis(rng)))
         return rand(bernoulli(0.80))
     end
-    return rand(bernoulli(0.1))
+    return rand(bernoulli(0.03))
 end
 loss_of_smell = ciid(loss_of_smell_)
 push!(symptoms, "loss_of_smell" => loss_of_smell)
@@ -579,7 +579,7 @@ function nasal_congestion_(rng)
     elseif (Bool(bronchitis(rng)))
         return rand(bernoulli(0.5))
     end
-    return rand(bernoulli(0.1))
+    return rand(bernoulli(0.05))
 end
 nasal_congestion = ciid(nasal_congestion_)
 push!(symptoms, "nasal_congestion" => nasal_congestion)
@@ -799,7 +799,7 @@ function wheezing_(rng)
     if (Bool(asthma(rng)))
         return rand(bernoulli(0.95))
     end
-    return rand(bernoulli(0.1))
+    return rand(bernoulli(0.08))
 end
 wheezing = ciid(wheezing_)
 push!(symptoms, "wheezing" => wheezing)
@@ -840,17 +840,25 @@ function evaluate_condition(condition, present_symptoms, sample_counts=500)
     mean.(map(symptom -> rand(symptom[1] - symptom[2], sample_counts, alg=RejectionSample), symptoms_do_condition))
 end
 
+function raw_samples_evaluate_condition(condition, present_symptoms, sample_counts=500)
+    symptoms_do_condition = map(symptom -> (replace(symptoms["$symptom"], conditions["$condition"] => true), 
+        replace(symptoms["$symptom"], conditions["$condition"] => false)), present_symptoms)
+
+
+    # Refer to the paper, section: Principles for diagnostic reasoning
+    map(symptom -> rand(symptom[1] - symptom[2], sample_counts, alg=RejectionSample), symptoms_do_condition)
+end
+
+
 
 function assess_symptoms(present_symptoms=[], absent_symptoms=[], condition_options=collect(keys(conditions)))
     symptom_mean_effects = map(condition -> evaluate_condition(condition, present_symptoms), condition_options)
     # @show sum(sum(symptom_mean_effects))
-    condition_probabilities = reverse(sort(
-        collect(
+    condition_probabilities = 
             Dict{String,Float32}(condition => mean(symptom_mean_effects[idx]) for (idx, condition) in enumerate(condition_options))
-            ), 
-            by=x -> x[2]
-        ))
 end
 
 # USAGE
-# assess_symptoms(["fever", "dyspnoea", "nasal_flaring"], [])
+assess_symptoms(["fever", "dyspnoea", "nasal_flaring"], [])
+
+# raw_samples_evaluate_condition
