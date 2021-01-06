@@ -1,5 +1,7 @@
 using Omega
 
+include("./riskfactors.jl")
+
 # categories [<4weeks, 1mo - 1yr, 1yr - 3yrs, 3yrs - 6yrs, 6yrs - 12yrs, 12yrs - 18yrs]
 age_categories = [:neonatal, :infant, :toddler, :preschool, :school, :adolescent]
 function age_(rng)
@@ -24,8 +26,15 @@ push!(conditions, "pneumonia" => pneumonia)
 asthma = bernoulli(0.075)
 push!(conditions, "asthma" => asthma)
 
-bronchitis = bernoulli(0.075)
+function bronchitis_(rng)
+    if (Bool(smoker(rng)))
+        return rand(bernoulli(0.25))
+    end
+    return rand(bernoulli(0.075))
+end
+bronchitis = ciid(bronchitis_)
 push!(conditions, "bronchitis" => bronchitis)
+
 
 chronic_obstructive_pulmonary_disease = bernoulli(0.075)
 push!(conditions, "chronic_obstructive_pulmonary_disease" => chronic_obstructive_pulmonary_disease)
@@ -472,7 +481,9 @@ push!(symptoms, "increased_resonance_on_percussion" => increased_resonance_on_pe
 
 function intercostal_drawing_(rng)
     if (Bool(pneumonia(rng)))
-        return rand(bernoulli(0.5))
+        # if (rand(age) !== :adolescent)
+        #     return rand(bernoulli)
+        return rand(bernoulli(0.65))
     end
     return rand(bernoulli(0.1))
 end
@@ -726,7 +737,7 @@ function tachypnea_(rng)
     if (Bool(tuberculosis(rng)))
         return rand(bernoulli(0.5))
     elseif (Bool(pneumonia(rng)))
-        return rand(bernoulli(0.9))
+        return rand(bernoulli(0.95))
     elseif (Bool(asthma(rng)))
         return rand(bernoulli(0.4))
     end
@@ -833,8 +844,8 @@ function evaluate_condition1(condition, present_symptoms, sample_counts=10)
 end
 
 
-function evaluate_condition(condition, present_symptoms, sample_counts=500)
-    symptoms_do_condition = map(symptom -> (replace(symptoms["$symptom"], conditions["$condition"] => true), 
+function evaluate_condition(condition, present_symptoms, sample_counts=1000, age_group=:toddler)
+    symptoms_do_condition = map(symptom -> (replace(symptoms["$symptom"], conditions["$condition"] => true, age => age_group), 
         replace(symptoms["$symptom"], conditions["$condition"] => false)), present_symptoms)
 
 
@@ -843,15 +854,35 @@ function evaluate_condition(condition, present_symptoms, sample_counts=500)
 end
 
 function raw_samples_evaluate_condition(condition, present_symptoms, sample_counts=500)
-    symptoms_do_condition = map(symptom -> (replace(symptoms["$symptom"], conditions["$condition"] => true), 
-        replace(symptoms["$symptom"], conditions["$condition"] => false)), present_symptoms)
+    # TODO: Take in age and depend on it
+
+
+    symptoms_do_condition = map(symptom -> (
+        # Make the condition true, and return the symptom dependencies
+        replace(symptoms["$symptom"], conditions["$condition"] => true),
+        # Make the condition false, and return the symptom dependencies 
+        replace(symptoms["$symptom"], conditions["$condition"] => false)),
+        present_symptoms)
 
 
     # Refer to the paper, section: Principles for diagnostic reasoning
     map(symptom -> rand(symptom[1] - symptom[2], sample_counts, alg=RejectionSample), symptoms_do_condition)
 end
 
+function condition_prior(condition="", present_risk_factors=[], absent_risk_factors=[])
+    # do_factor = map(factor -> replace(riskfactors["$factor"]), present_risk_factors)
+    condition_do_factor = replace(conditions["$condition"], Dict(map(factor -> riskfactors["$factor"] => true, present_risk_factors)))
 
+    rand(condition_do_factor, 1000, alg=RejectionSample)
+end
+
+function conditions_prior(conditions, present_risk_factors=[], absent_risk_factors=[])
+    map(condition -> mean(condition_prior(condition, present_risk_factors, absent_risk_factors)), conditions)
+    # priors = Dict{String,Float32}(map(condition -> condition_prior(condition, present_risk_factors, absent_risk_factors), conditions))
+    # for condition in conditions
+        # condition_do_factor = replace(conditions["$condition"], Dict(map(factor -> riskfactors["$factor"] => true, present_risk_factors)))
+    # end
+end
 
 function assess_symptoms(present_symptoms=[], absent_symptoms=[], condition_options=collect(keys(conditions)))
     symptom_mean_effects = map(condition -> evaluate_condition(condition, present_symptoms), condition_options)
@@ -860,7 +891,40 @@ function assess_symptoms(present_symptoms=[], absent_symptoms=[], condition_opti
             Dict{String,Float32}(condition => mean(symptom_mean_effects[idx]) for (idx, condition) in enumerate(condition_options))
 end
 
+
+"""
+Patient Assessment Method
+
+    Given: A -> B
+    Questions:
+        - What is the effect of treating A on B
+
+    parameters: 
+        - age
+        - present_symptoms
+        - absent_symptoms
+        - present_risk_factors
+        - absent_risk_factors
+        - condition_options
+
+    steps:
+    1. Find the 3rd principle (Diseases that explain a greater number of the patient’s symptoms should be more likely) value/distribtion
+    2. 
+"""
+function patient_assessment(age=:toddler, present_symptoms=[], absent_symptoms=[], present_risk_factors=[], absent_risk_factors=[], condition_options=collect(keys(conditions)))
+    symptom_mean_effects = map(condition -> evaluate_condition(condition, present_symptoms), condition_options)
+
+    # @show conditions_prior(condition_options, present_risk_factors, absent_risk_factors)
+    # @show symptom_mean_effects
+
+    condition_probabilities = 
+            Dict{String,Float32}(condition => mean(symptom_mean_effects[idx]) for (idx, condition) in enumerate(condition_options))
+end
+
 # USAGE
-assess_symptoms(["fever", "dyspnoea", "nasal_flaring"], [])
+# patient_assessment(:adolescent, ["fever", "cough", "dyspnoea", "tachypnea", "intercostal_drawing"], [], ["obesity"], [], ["pneumonia", "bronchitis"])
 
 # raw_samples_evaluate_condition
+
+#TODO: 
+# - Add support for taking in co-morbidities and current conditions (These are different from risk factors!)
