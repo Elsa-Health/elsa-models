@@ -2,6 +2,7 @@
 <img src="/equal-friends.svg" style="max-width: 600px; margin: auto;"> <br />
 <i>Health and wellness for all.</i>
 </div>
+
 # Elsa Health Symptom Assessment
 
 ![DUB](<https://img.shields.io/badge/Version-0.0.3%20(alpha)-yellow>)
