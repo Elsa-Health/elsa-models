@@ -10,7 +10,7 @@
 ## Description
 [Elsa Health](https://elsa.health) Symptom Assessment algorithms are a collection of causal models that can be used for health decision making support at all levels of healthcare providers.
 
-The main intention of these models is to support healthcare workers at the rural (and urban) dispensary level by takin in patient signs, symptoms and risk factors, and calculating the likelihood of one of the covered conditions.
+The main intention of these models is to support healthcare workers at the rural (and urban) dispensary level by taking in patient signs, symptoms and risk factors, and calculating the likelihood of one of the covered conditions.
 
 [Elsa Health](https://elsa.health) as an organization is commited to <b>equal access</b> to healthcare for all. We do this the best way we know how, by building technologies to augment the capacity and skills of decision makers (healthcare workers, governments, researchrs, parents, guardians, and individuals) to support optimal decision making. *Disease should be a thing of the past*
 
@@ -87,7 +87,7 @@ If you want to contribute through code or documentation, the [Contributing guide
 ## References
 
 [Improving the accuracy of medical diagnosis with causal machine learning](https://www.nature.com/articles/s41467-020-17419-7)
-This document was adapted from [Brandk's](https://gist.github.com/briandk/3d2e8b3ec8daf5a27a62) awesome adaptation of the open-source contribution guidelines for [Facebook's Draft](https://github.com/facebook/draft-js/blob/a9316a723f9e918afde44dea68b5f9f39b7d9b00/CONTRIBUTING.md)
+
 
 ## License
 
