@@ -1,7 +1,3 @@
-<div style="text-align: center;">
-<img src="/conduct-code.svg" style="max-width: 600px; margin: auto;">
-</div>
-<div style="text-align: center;">Health and wellness for all.</div>
 
 # Elsa Health Code of Conduct
 
