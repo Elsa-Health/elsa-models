@@ -70,6 +70,9 @@ We love your input! We want to make contributing to this project as easy and tra
 
 If you want to contribute through code or documentation, the [Contributing guide](CONTRIBUTION.md) is the best place to start. If you have questions, feel free to ask.
 
+This project adheres to [Elsa Health's code of conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code.
+
+
 ---
 ### Dependencies
 | Technology / Tool | Description   |
