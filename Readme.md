@@ -1,46 +1,97 @@
-# Elsa Health Models
-**Version 0.0.1**
+<div style="text-align: center;">
+<img src="/equal-friends.svg" style="max-width: 600px; margin: auto;"> <br />
+<i>Health and wellness for all.</i>
+</div>
 
-A collection of (mainly causal) models for different health conditions written in Julia, Turing.jl, Distributions.jl, and Omega.jl.
+# Elsa Health Symptom Assessment
 
+![DUB](<https://img.shields.io/badge/Version-0.0.3%20(alpha)-yellow>)
+
+## Description
+[Elsa Health](https://elsa.health) Symptom Assessment algorithms are a collection of causal models that can be used for health decision making support at all levels of healthcare providers.
+
+The main intention of these models is to support healthcare workers at the rural (and urban) dispensary level by taking in patient signs, symptoms and risk factors, and calculating the likelihood of one of the covered conditions.
+
+[Elsa Health](https://elsa.health) as an organization is commited to <b>equal access</b> to healthcare for all. We do this the best way we know how, by building technologies to augment the capacity and skills of decision makers (healthcare workers, governments, researchrs, parents, guardians, and individuals) to support optimal decision making. *Disease should be a thing of the past*
+
+
+#### Goals
+- Support developers of health technologies to quickly add symptom assessment capabilities to their technolgies
+- Ensure Africa and her specific diseases are included when symptom assessment is being performed.
+- Allow developers from all over the world to include African (currently only East African) diseases and their presentations.
+- Grow a community of humans that want to leverage technology to make better health decision making is available everywhere technology can reach.
+
+[Learn more about Elsa Health Open Source](https://opensource.elsa.health)
 
 ---
-#### Getting Started
 
-Please install all the requeirments listed in the requirements section then:
+## Getting Started
+- Check out [the docs](https://opensource.elsa.health/symptom-assessment/getting-started)
+- Try the [live demo](https://opensource.elsa.health/symptom-assessment/try-online) (coming soon)
 
-To run the server
+
+
+#### Quick Start
+
+##### Install the requirements
+
+1. [Julia](https://julialang.org/) v. 1.4.2 (important: breaks when running on julia 1.5+)
+2. [Distributions.jl](https://juliastats.org/Distributions.jl/latest/)
+3. [Omega.jl](http://www.zenna.org/Omega.jl/latest/) - Causal & Counterfactual inference
+4. To run the server [HTTP.jl](https://github.com/JuliaWeb/HTTP.jl)
+5. To visualise results & distributions [UnicodePlots.jl](https://github.com/Evizero/UnicodePlots.jl)
+6. To send back results from the server [JSON2.jl](https://github.com/quinnj/JSON2.jl)
+
+##### Quickly launch the server
+
 1. Change directories into this project: `cd path/to/folder`
-2. `julia --project=@. server.jl` to activate the current project and start the server
+2. `julia --project=@. ./src/server.jl` to activate the current project and start the server
 3. To stop the server simply press `Ctrl+C`
 
-To install new packages:
+<!-- ##### To install new packages:
+
 1. Change directories into this project: `cd path/to/folder`
 2. `julia --project=@.` to activate the current project and enter the REPL
-3. `] add PACKAGENAME` to add the package "PACKAGENAME" (replace PACKAGENAME with the package)
+3. `] add PACKAGENAME` to add the package "PACKAGENAME" (replace PACKAGENAME with the package) -->
 
 
-Some information about adherence:
-The file adherence.jl is a causal model that supports counterfactuals. Its still very manual interaction wise, but plans to add support for API access are comming.
 
 ---
 
-#### Requirements
-1. [Julia](https://julialang.org/) v. 1.4.2 (important: breaks when running on julia 1.5+)
-2. [Turing.jl](https://turing.ml/)
-3. [Distributions.jl](https://juliastats.org/Distributions.jl/latest/)
-4. [Omega.jl](http://www.zenna.org/Omega.jl/latest/) - Causal & Counterfactual inference
-5. To run the server [HTTP.jl](https://github.com/JuliaWeb/HTTP.jl)
-6. To visualise results & distributions [UnicodePlots.jl](https://github.com/Evizero/UnicodePlots.jl)
-7. To send back results from the server [JSON2.jl](https://github.com/quinnj/JSON2.jl)
+### Want to contribute?
+
+We love your input! We want to make contributing to this project as easy and transparent as possible, whether it's:
+
+- Reporting a bug
+- Discussing the current state of the code
+- Submitting a fix
+- Proposing new features
+- Becoming a maintainer
+
+If you want to contribute through code or documentation, the [Contributing guide](CONTRIBUTION.md) is the best place to start. If you have questions, feel free to ask.
+
+This project adheres to [Elsa Health's code of conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code.
+
 
 ---
+### Dependencies
+| Technology / Tool | Description   |
+| :-------------    | :----------:  |
+|  [Julia](https://julialang.org/)  | A language for scientific and numeric computing - install v. 1.4.2|
+| [Distributions.jl](https://juliastats.org/Distributions.jl/latest/) | A package for creating, manipulating and working with various distributions in Julia|
+| [Omega.jl](http://www.zenna.org/Omega.jl/latest/)  | Omega is a library for causal and probabilistic inference in Julia.  |
+|[HTTP.jl](https://github.com/JuliaWeb/HTTP.jl) | HTTP client and server functionality for Julia  |
+|[UnicodePlots.jl](https://github.com/Evizero/UnicodePlots.jl)| Advanced Unicode plotting library designed for use in Julia's REPL. |
+|[JSON2.jl](https://github.com/quinnj/JSON2.jl)| Fast JSON for Julia types  |
 
-#### Contribution
-Please do not push any changes directly to the master branch. Create a new branch with the following naming conventions
 
-When creating a new feature: `feature/feature-name`
-When fixing a bug: `bug/bug-name`
-When making an improvement: `improvement/improvement-name`
 
-Then push your code to Github and make a pull request for a merge.
+---
+## References
+
+[Improving the accuracy of medical diagnosis with causal machine learning](https://www.nature.com/articles/s41467-020-17419-7)
+
+
+## License
+
+[Apache License 2.0](https://choosealicense.com/licenses/apache-2.0/)

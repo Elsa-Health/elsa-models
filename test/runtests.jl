@@ -1,4 +1,4 @@
-using ElsaModels
+using ElsaPediatrics
 using Test
 # using Distributions: kldivergence
 
