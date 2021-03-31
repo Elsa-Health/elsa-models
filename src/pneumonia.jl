@@ -1,5 +1,5 @@
 using Omega
-using UnicodePlots
+# using UnicodePlots
 
 #= 
 Observed
@@ -244,4 +244,4 @@ samples = rand((has_dyspnoea_new, has_fever_new, has_tachychardia_new, has_chest
 # mean(diffsamples)
 # mean(samples)
 
-# UnicodePlots.histogram([samples...], nbins=3)
+UnicodePlots.histogram([samples...], nbins=3)
