@@ -35,7 +35,7 @@ The main intention of these models is to support healthcare workers at the rural
 
 ##### Install the requirements
 
-1. [Julia](https://julialang.org/) v. 1.4.2 (important: breaks when running on julia 1.5+)
+1. [Julia](https://julialang.org/) v. 1.6.0
 2. [Distributions.jl](https://juliastats.org/Distributions.jl/latest/)
 3. [Omega.jl](http://www.zenna.org/Omega.jl/latest/) - Causal & Counterfactual inference
 4. To run the server [HTTP.jl](https://github.com/JuliaWeb/HTTP.jl)
