@@ -123,12 +123,13 @@ push!(conditions, "dysentery" => dysentery)
 function malnutrition_(rng)
     if (Bool(dysentery(rng)))
         return rand(bernoulli(0.5))
+    elseif (Bool(tuberculosis(rng)))
+        return rand(bernoulli(0.8))
     end
     return rand(bernoulli(0.075))
 end
 malnutrition = ciid(malnutrition_)
 push!(conditions, "malnutrition" => malnutrition)
-# FIXME: Remove from symptoms
 
 
 function sepsis_(rng)
@@ -939,7 +940,9 @@ lethargy = ciid(lethargy_)
 push!(symptoms, "lethargy" => lethargy)
 
 function loss_of_appetite_(rng)
-    if (Bool(coryza(rng)))
+    if (Bool(malnutrition(rng)))
+        return rand(bernoulli(0.80))
+    elseif (Bool(coryza(rng)))
         return rand(bernoulli(0.5))
     elseif (Bool(ascariasis(rng)))
         return rand(bernoulli(0.95))
@@ -1002,6 +1005,15 @@ end
 lymphadenopathy = ciid(lymphadenopathy_)
 push!(symptoms, "lymphadenopathy" => lymphadenopathy)
 
+# function malaise_(rng)
+#     if (Bool(tuberculosis(rng)))
+#         return rand(bernoulli(0.9))
+#     end
+#     return rand(bernoulli(0.1))
+# end
+# malaise = ciid(malaise_)
+# push!(symptoms, "malaise" => malaise)
+
 function malaise_(rng)
     if (Bool(tuberculosis(rng)))
         return rand(bernoulli(0.9))
@@ -1010,15 +1022,6 @@ function malaise_(rng)
 end
 malaise = ciid(malaise_)
 push!(symptoms, "malaise" => malaise)
-
-function malnutrition_(rng)
-    if (Bool(tuberculosis(rng)))
-        return rand(bernoulli(0.8))
-    end
-    return rand(bernoulli(0.1))
-end
-malnutrition = ciid(malnutrition_)
-push!(symptoms, "malnutrition" => malnutrition)
 
 function myalgia_(rng)
     if (Bool(coryza(rng)))
@@ -1613,6 +1616,8 @@ push!(symptoms, "wheals" => wheals)
 function weight_loss_(rng)
     if (Bool(tuberculosis(rng)))
         return rand(bernoulli(0.9))
+    elseif (Bool(malnutrition(rng)))
+        return rand(bernoulli(0.9))
     elseif (Bool(malaria(rng)))
         return rand(bernoulli(0.8))
     elseif (Bool(ascariasis(rng)))
@@ -1783,15 +1788,15 @@ function patient_assessment(age=:toddler, present_symptoms=[], absent_symptoms=[
             Dict{String,Float32}(condition => mean(symptom_mean_effects[idx]) for (idx, condition) in enumerate(condition_options))
 end
 
-println(collect(keys(conditions)))
+# println(collect(keys(conditions)))
 
-@show length(conditions)
+# @show length(conditions)
 
-symps = ["fever", "sore_throat", "difficulty_swallowing", "voice_hoarseness"]
-conds = ["malaria", "gastroenteritis", "tonsillitis", "pneumonia", "otitis_media", "laryngitis"]
+# symps = ["fever", "sore_throat", "difficulty_swallowing", "voice_hoarseness"]
+# conds = ["malaria", "gastroenteritis", "tonsillitis", "pneumonia", "otitis_media", "laryngitis"]
 # USAGE
-@time patient_assessment(:adolescent, ["cough", "prologned_cough", "chest_pain", "fever"], [], [], [], ["malaria", "gastroenteritis", "tonsillitis", "pneumonia", "otitis_media"])
-# @time patient_assessment(:adolescent, ["ear_pain", "ear_discharge", "fever", "headache"], [], [], [], ["malaria", "gastroenteritis", "tonsillitis", "pneumonia", "otitis_media", "laryngitis"])
+# @time patient_assessment(:adolescent, ["cough", "prologned_cough", "chest_pain", "night_sweats", "fever", "weight_loss", "blood_stained_sputum", "malaise"], [], [], [], ["malaria", "gastroenteritis", "tonsillitis", "pneumonia", "otitis_media", "tuberculosis"])
+# @time assess_symptoms(["cough", "prologned_cough", "night_sweats", "fever", "weight_loss", "blood_stained_sputum", "malaise", "tachypnea", "voice_hoarseness"], [], ["tuberculosis"])
 # @time patient_assessment(:adolescent, symps, [], [], collect(keys(conditions)))
 # @time patient_assessment(:adolescent, collect(keys(symptoms))[1:10], [], [], [])
 
