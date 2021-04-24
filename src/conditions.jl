@@ -210,7 +210,7 @@ function onphalitis_(rng)
     if (rand(age) === :neonatal)
         return rand(bernoulli(0.20))
     end
-    return constant(0)
+    return rand(constant(0))
 end
 onphalitis = ciid(onphalitis_)
 push!(conditions, "onphalitis" => onphalitis)
@@ -381,11 +381,11 @@ push!(symptoms, "bradycardia" => bradycardia)
 
 function brown_skin_patches_(rng)
     if !Bool(skin_patches(rng))
-        return constant(0.0)
+        return rand(constant(0.0))
     end
 
     if Bool(tinea_nigra(rng))
-        return constant(1.0)
+        return rand(constant(1.0))
     end
     return rand(bernoulli(0.02))
 end
@@ -808,7 +808,7 @@ push!(symptoms, "hematemesis" => hematemesis)
 
 function high_grade_fever_(rng)
     if !Bool(fever(rng))
-        return constant(0.0)
+        return rand(constant(0.0))
     end
 
     if (Bool(tonsillitis(rng)))
@@ -883,11 +883,11 @@ push!(symptoms, "irritable" => irritable)
 
 function irregular_skin_patches_(rng)
     if !Bool(skin_patches)
-        return constant(0.0)
+        return rand(constant(0.0))
     end
 
     if (Bool(tinea_nigra(rng)))
-        return constant(1.0)
+        return rand(constant(1.0))
     end
     return rand(bernoulli(0.05))
 end
@@ -982,7 +982,7 @@ push!(symptoms, "loss_of_voice" => loss_of_voice)
 
 function low_grade_fever_(rng)
     if !Bool(fever(rng))
-        return constant(0.0)
+        return rand(constant(0.0))
     end
 
     if (Bool(coryza(rng)))
@@ -1204,7 +1204,7 @@ function pruritus_(rng)
     if (Bool(heat_rash(rng)))
         return rand(bernoulli(0.60))
     elseif (Bool(scabies(rng)))
-        return constant(1.0)
+        return rand(constant(1.0))
     elseif (Bool(tinea_corporis(rng)))
         return rand(bernoulli(0.8))
     elseif Bool(impetigo(rng))
@@ -1309,7 +1309,7 @@ push!(symptoms, "rhinorrhea" => rhinorrhea)
 
 function ring_shaped_skin_patches_(rng)
     if (Bool(tinea_corporis(rng)))
-        return constant(1.0)
+        return rand(constant(1.0))
     end
     return rand(bernoulli(0.05))
 end
@@ -1347,7 +1347,7 @@ push!(symptoms, "skin_crusts" => skin_crusts)
 
 function yellow_skin_crusts_(rng) 
     if !Bool(skin_crusts(rng))
-        return constant(0.0)
+        return rand(constant(0.0))
     end
 
     if Bool(impetigo(rng))
@@ -1360,9 +1360,9 @@ push!(symptoms, "yellow_skin_crusts" => yellow_skin_crusts)
 
 function skin_patches_(rng)
     if (Bool(tinea_corporis(rng)))
-        return constant(1.0)
+        return rand(constant(1.0))
     elseif Bool(tinea_nigra(rng))
-        return constant(1.0)
+        return rand(constant(1.0))
     end
     return rand(bernoulli(0.05))
 end
@@ -1547,7 +1547,7 @@ push!(symptoms, "vesicles" => vesicles)
 
 function painful_vesicles_(rng)
     if !(Bool(vesicles(rng)))
-        return constant(0.0)
+        return rand(constant(0.0))
     end
 
     if Bool(impetigo(rng))
@@ -1638,7 +1638,7 @@ push!(symptoms, "wheezing" => wheezing)
 
 function white_patches_in_mouth_(rng)
     if (Bool(oral_thrush(rng)))
-        return constant(1.0)
+        return rand(constant(1.0))
     end
     return rand(bernoulli(0.1))
 end
@@ -1783,12 +1783,14 @@ function patient_assessment(age=:toddler, present_symptoms=[], absent_symptoms=[
             Dict{String,Float32}(condition => mean(symptom_mean_effects[idx]) for (idx, condition) in enumerate(condition_options))
 end
 
+println(collect(keys(conditions)))
+
 @show length(conditions)
 
 symps = ["fever", "sore_throat", "difficulty_swallowing", "voice_hoarseness"]
 conds = ["malaria", "gastroenteritis", "tonsillitis", "pneumonia", "otitis_media", "laryngitis"]
 # USAGE
-@time patient_assessment(:adolescent, ["sore_throat", "voice_hoarseness", "difficulty_swallowing"], [], [], [], ["malaria", "gastroenteritis", "tonsillitis", "pneumonia", "otitis_media", "laryngitis"])
+@time patient_assessment(:adolescent, ["cough", "prologned_cough", "chest_pain", "fever"], [], [], [], ["malaria", "gastroenteritis", "tonsillitis", "pneumonia", "otitis_media"])
 # @time patient_assessment(:adolescent, ["ear_pain", "ear_discharge", "fever", "headache"], [], [], [], ["malaria", "gastroenteritis", "tonsillitis", "pneumonia", "otitis_media", "laryngitis"])
 # @time patient_assessment(:adolescent, symps, [], [], collect(keys(conditions)))
 # @time patient_assessment(:adolescent, collect(keys(symptoms))[1:10], [], [], [])
