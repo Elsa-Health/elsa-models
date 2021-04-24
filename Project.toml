@@ -2,14 +2,11 @@ name = "ElsaPediatrics"
 uuid = "e4fc9beb-7cce-4546-aac3-9f1fe08b5b68"
 
 [deps]
-Bijectors = "76274a88-744f-5084-9051-94815aaf08c4"
 Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"
 HTTP = "cd3eb016-35fb-5094-929b-558a96fad6f3"
 JSON2 = "2535ab7d-5cd8-5a07-80ac-9b1792aadce3"
 Omega = "1af16e33-887a-59b3-8344-18f1671b3ade"
-StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
-Zygote = "e88e6eb3-aa80-5325-afca-941959d7151f"
 
 [compat]
 julia = "1.6.0"
