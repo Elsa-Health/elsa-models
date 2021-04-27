@@ -29,3 +29,25 @@ jobs:
           version: ${{ matrix.julia-version }}
       - uses: julia-actions/julia-buildpkg@latest
       - uses: julia-actions/julia-runtest@latest
+      
+      - name: Coveralls GitHub Action
+        uses: coverallsapp/github-action@v1.1.2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          flag-name: run-${{ matrix.os }}-${{ matrix.julia-verion }}
+          parallel: true
+
+  finish:
+    needs: test
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        julia-version: ["1.6.0"]
+        julia-arch: [x64, x86]
+        os: [ubuntu-latest]
+    steps:
+    - name: Coveralls Finished
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        parallel-finished: true
