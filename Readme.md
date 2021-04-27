@@ -3,9 +3,9 @@
 <i>Health and wellness for all.</i>
 </div>
 
-# Elsa Health Symptom Assessment
+# Elsa Health Symptom Assessments
 
-![DUB](<https://img.shields.io/badge/Version-0.0.3%20(alpha)-yellow>)
+![test](https://github.com/Elsa-Health/elsa-models/workflows/CI/badge.svg?branch=main)
 [![Coverage Status](https://coveralls.io/repos/github/Elsa-Health/elsa-models/badge.svg?branch=main)](https://coveralls.io/github/Elsa-Health/elsa-models?branch=main)
 
 ## Description
