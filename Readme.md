@@ -6,6 +6,7 @@
 # Elsa Health Symptom Assessment
 
 ![DUB](<https://img.shields.io/badge/Version-0.0.3%20(alpha)-yellow>)
+[![Coverage Status](https://coveralls.io/repos/github/Elsa-Health/elsa-models/badge.svg?branch=main)](https://coveralls.io/github/Elsa-Health/elsa-models?branch=main)
 
 ## Description
 [Elsa Health](https://elsa.health) Symptom Assessment algorithms are a collection of causal models that can be used for health decision making support at all levels of healthcare providers.
