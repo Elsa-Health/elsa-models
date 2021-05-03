@@ -9,6 +9,10 @@ present_sym_matrix = Dict(
     "sinusitis" => ["facial_pain", "nasal_congestion", "rhinorrhea", "loss_of_smell", "fatigue"],
     "asthma" => ["wheezing", "chest_tightness", "cough", "dyspnoea", "barrel_chest"],
     "tuberculosis" => ["cough", "prologned_cough", "night_sweats", "fever", "weight_loss", "blood_stained_sputum"],
+    "gastroenteritis" => ["abdominal_pain", "diarrhea", "vomiting", "nausea", "irritable"],
+    "dysentery" => ["diarrhea", "blood_stained_stool"],
+    "impetigo" => ["fever", "pruritus", "skin_crusts", "yellow_skin_crusts"],
+    "tinea_corporis" => ["skin_patches", "ring_shaped_skin_patches", "pruritus"],
     # "tuberculosis" => ["night_sweats", "blood_stained_sputum"]
 )
 
@@ -24,9 +28,10 @@ for (cause, effect) in present_sym_matrix
         # @show cause, effect
         prob = assess_symptoms(effect, [], ["$cause"])["$cause"]
         @show cause, prob
-        @test prob > 0.0
+        @test prob > 0.5
     end
 end
+
 
 
 # TODO: Edge Case Tests

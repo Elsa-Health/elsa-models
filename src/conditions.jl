@@ -270,7 +270,7 @@ function abdominal_pain_(rng)
     elseif (Bool(acute_watery_diarrhoea(rng)))
         return rand(bernoulli(0.5))
     elseif (Bool(gastroenteritis(rng)))
-        return rand(bernoulli(0.76))
+        return rand(bernoulli(0.85))
     elseif (Bool(ascariasis(rng)))
         return rand(bernoulli(0.90))
     elseif (Bool(gastritis(rng)))
@@ -353,7 +353,7 @@ push!(symptoms, "blood_stained_sputum" => blood_stained_sputum)
 
 function blood_stained_stool_(rng)
     if (Bool(dysentery(rng)))
-        return rand(bernoulli(0.85))
+        return rand(bernoulli(0.9))
     end
     return rand(bernoulli(0.01))
 end
@@ -438,7 +438,7 @@ function coma_(rng)
     if (Bool(malaria(rng)))
         return rand(bernoulli(0.35))
     elseif (Bool(dysentery(rng)))
-        return rand(bernoulli(0.1))
+        return rand(bernoulli(0.2))
     elseif (Bool(sepsis(rng)) && rand(age) === :neonatal)
         return rand(bernoulli(0.80))
     end
@@ -742,13 +742,13 @@ function fever_(rng)
     elseif (Bool(otitis_media(rng)))
         return rand(bernoulli(0.4))
     elseif (Bool(dysentery(rng)))
-        return rand(bernoulli(0.4))
+        return rand(bernoulli(0.55))
     elseif (Bool(conjunctivitis(rng)))
         return rand(bernoulli(0.25))
     elseif (Bool(urinary_tract_infection(rng)))
         return rand(bernoulli(0.8))
     elseif Bool(impetigo(rng))
-        return rand(bernoulli(0.90))
+        return rand(bernoulli(0.95))
     end
     return rand(bernoulli(0.3))
 end
@@ -930,7 +930,7 @@ function lethargy_(rng)
     elseif (Bool(dehydration(rng)))
         return rand(bernoulli(0.95))
     elseif (Bool(dysentery(rng)))
-        return rand(bernoulli(0.4))
+        return rand(bernoulli(0.55))
     elseif (Bool(sepsis(rng)) && rand(age) in [:neonatal, :infant, :toddler, :preschool, :school])
         return rand(bernoulli(0.99))
     end
@@ -1211,7 +1211,7 @@ function pruritus_(rng)
     elseif (Bool(tinea_corporis(rng)))
         return rand(bernoulli(0.8))
     elseif Bool(impetigo(rng))
-        return rand(bernoulli(0.70))
+        return rand(bernoulli(0.95))
     end
     return rand(bernoulli(0.03))
 end
@@ -1384,7 +1384,7 @@ push!(symptoms, "skin_rash" => skin_rash)
 
 function skin_ulcers_(rng)
     if Bool(impetigo(rng))
-        return rand(bernoulli(0.))
+        return rand(bernoulli(0.1))
     end
     return rand(bernoulli(0.01))
 end
@@ -1577,7 +1577,7 @@ function vomiting_(rng)
     if (Bool(malaria(rng)))
         return rand(bernoulli(0.8))
     elseif (Bool(gastroenteritis(rng)))
-        return rand(bernoulli(0.81))
+        return rand(bernoulli(0.90))
     elseif (Bool(gastritis(rng)))
         return rand(bernoulli(0.5))
     elseif (Bool(trichuriasis(rng)))
@@ -1677,7 +1677,7 @@ function evaluate_condition1(condition, present_symptoms, sample_counts=10)
 end
 
 
-function evaluate_condition(condition, present_symptoms, sample_counts=500, age_group=:toddler)
+function evaluate_condition(condition, present_symptoms, sample_counts=1000, age_group=:toddler)
     symptoms_do_condition = map(symptom -> (replace(symptoms["$symptom"], conditions["$condition"] => true, age => age_group), 
         replace(symptoms["$symptom"], conditions["$condition"] => false)), present_symptoms)
 
